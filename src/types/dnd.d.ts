@@ -1,37 +1,12 @@
-type TContent = {
+type TToDoItems = {
   id: number;
-  info?: string;
+  des?: string;
   img?: string;
   dateNTime?: string;
 };
-type TDnDElement = {
+type TToDos = {
   id: number;
   title: string;
-  content?: TContent[];
+  toDoItems?: TToDoItems[];
 };
-type TDnDList = TDnDElement[];
-
-type TListContentProp = {
-  list: TDnDElement;
-  handleContentData: (val, id) => void;
-  handleListDelete: (val) => void;
-  deleteContent: (listId: number, id: number) => void;
-  handleEditContent: (
-    listId: number,
-    id: number,
-    value: string,
-    img: string,
-    dateNTime: string
-  ) => void;
-};
-
-type TCardContentProp = {
-  content: TContent[];
-  deleteContent: (val: number) => void;
-  handleEditValue: (
-    id: number,
-    title: string,
-    img: string,
-    dateNTime: string
-  ) => void;
-};
+type TToDoLists = TToDos[];

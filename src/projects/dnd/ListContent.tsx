@@ -2,16 +2,17 @@ import React, { useState } from "react";
 // import CardContent from "./CardContent";
 import { FaTrash } from "react-icons/fa";
 import CardContent from "./CardContent";
+import { useDispatch } from "react-redux";
+import { addToDoItem, deleteToDoList } from "../../redux/dnd/dnd-slice";
 
-const ListContent = ({
-  list,
-  handleContentData,
-  handleListDelete,
-  deleteContent,
-  handleEditContent,
-}: TListContentProp) => {
+type TLisTToDoItemsProp = {
+  list: TToDos;
+};
+
+const ListContent = ({ list }: TLisTToDoItemsProp) => {
   const [createCard, setCreateCard] = useState(false);
-  const [cardInfo, setCardInfo] = useState("");
+  const [des, setDes] = useState("");
+  const dispatch = useDispatch();
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center p-2">
@@ -20,19 +21,13 @@ const ListContent = ({
         <button
           className="btn btn-transparent text-danger"
           style={{ color: "red" }}
-          onClick={() => handleListDelete(list.id)}
+          onClick={() => dispatch(deleteToDoList(list.id))}
         >
           <FaTrash />
         </button>
       </div>
-      {!!list.content?.length && (
-        <CardContent
-          content={list.content}
-          deleteContent={(id: number) => deleteContent(list.id, id)}
-          handleEditValue={(id: number, value: string, img, dateNTime) =>
-            handleEditContent(list.id, id, value, img, dateNTime)
-          }
-        />
+      {!!list.toDoItems?.length && (
+        <CardContent id={list.id} toDoItems={list.toDoItems} />
       )}
       <div className="row">
         {!createCard ? (
@@ -48,26 +43,26 @@ const ListContent = ({
           <div className="create-card w_30 mh_10">
             <input
               className="form-control text-white bg-black"
-              value={cardInfo}
+              value={des}
               onChange={(e) => {
-                setCardInfo(e.target.value);
+                setDes(e.target.value);
               }}
             />
             <button
               className="btn btn-transparent text-white"
               onClick={() => {
-                handleContentData(cardInfo, list.id);
+                dispatch(addToDoItem({ des, id: list.id }));
                 setCreateCard(false);
-                setCardInfo("");
+                setDes("");
               }}
-              disabled={cardInfo === ""}
+              disabled={des === ""}
             >
               Save
             </button>
             <button
               className="btn btn-transparent text-white"
               onClick={() => {
-                setCardInfo("");
+                setDes("");
                 setCreateCard(false);
               }}
             >

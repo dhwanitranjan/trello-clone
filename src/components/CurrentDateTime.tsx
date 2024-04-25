@@ -28,11 +28,13 @@ const CurrentDateTime = () => {
   }, []);
   return (
     <div className="position-absolute d-flex right-0 bottom-0 bg-black text-white rounded-1">
-      <span>{currentTime.timeZoneName.split(" ")[2]} </span>
-      <span>{currentTime.timeZoneName.split(" ")[3]} </span>
-      <span>{currentTime.timeZone.split(" ")[2]} </span>
-      <span>{currentTime.currentDate} </span>
-      <span>{currentTime.currentTime}</span>
+      <span className="mx-1">{currentTime.timeZoneName.split(" ")[2]}</span>
+      <span className="me-1">
+        {currentTime.timeZoneName.split(" ")[3]} Zone
+      </span>
+      <span className="me-1">({currentTime.timeZone.split(" ")[2]}) </span>
+      <span className="me-1">{currentTime.currentDate}</span>
+      <span className="me-1">{currentTime.currentTime}</span>
     </div>
   );
 };
