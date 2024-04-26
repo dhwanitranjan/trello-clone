@@ -23,7 +23,6 @@ const CurrentDateTime = () => {
         }),
       });
     }, 1000);
-
     return () => clearInterval(interval);
   }, []);
   return (

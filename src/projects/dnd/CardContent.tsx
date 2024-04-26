@@ -64,10 +64,10 @@ const CardContent = ({ id, toDoItems }: TCardContentProp) => {
                 >
                   <div className="ms-2 me-2 d-flex justify-content-between align-items-center position-relative z-1">
                     {editInfo.id === item.id ? (
-                      <div className="create-card w_30 mh_10">
+                      <div className="create-card w-100 mh_10">
                         <input
                           className="form-control bg-black text-white"
-                          value={editInfo.des}
+                          value={editInfo.des || ""}
                           onChange={(e) => {
                             setEditInfo((prev) => ({
                               ...prev,
@@ -75,94 +75,150 @@ const CardContent = ({ id, toDoItems }: TCardContentProp) => {
                             }));
                           }}
                         />
-                        <div className="mt-2 d-flex">
+                        <div className="mt-2 d-flex flex-column">
+                          <div className="d-flex align-items-center w-100 mt-2">
+                            <label
+                              htmlFor="meeting-time"
+                              className="fs-16 w-25"
+                            >
+                              Date :{" "}
+                            </label>
+                            <input
+                              className="form-control w-75"
+                              type="datetime-local"
+                              id="meeting-time"
+                              name="meeting-time"
+                              value={editInfo.dateNTime || ""}
+                              onChange={(e) =>
+                                setEditInfo((prev) => ({
+                                  ...prev,
+                                  dateNTime: e.target.value,
+                                }))
+                              }
+                              style={{
+                                backgroundColor: "#1b6794",
+                                color: "#fff",
+                              }}
+                            />
+                          </div>
+                          <div className="d-flex align-items-center w-100 mt-2 mb-2">
+                            <label
+                              htmlFor="meeting-time"
+                              className="fs-16 w-25"
+                            >
+                              Img Link :{" "}
+                            </label>
+                            <input
+                              className="form-control w-75"
+                              type="text"
+                              id="meeting-time"
+                              name="meeting-time"
+                              value={editInfo.img || ""}
+                              onChange={(e) =>
+                                setEditInfo((prev) => ({
+                                  ...prev,
+                                  img: e.target.value,
+                                }))
+                              }
+                              style={{
+                                backgroundColor: "#1b6794",
+                                color: "#fff",
+                              }}
+                            />
+                          </div>
                           {/* <input
-                        className="form-control bg-black text-white"
-                        value={editInfo.img}
-                        type="file"
-                        id="avatar"
-                        name="avatar"
-                        accept="image/png, image/jpeg"
-                        onChange={(e) =>
-                          setEditInfo((prev) => ({
-                            ...prev,
-                            img: e.target.img,
-                          }))
-                        }
-                      /> */}
-                          <input
-                            className="form-control"
-                            type="datetime-local"
-                            id="meeting-time"
-                            name="meeting-time"
-                            value={editInfo.dateNTime}
+                            className="form-control bg-black text-white w-100 my-2"
+                            value={editInfo.img || ""}
+                            type="file"
+                            id="avatar"
+                            name="avatar"
+                            accept="image/png, image/jpeg"
                             onChange={(e) =>
                               setEditInfo((prev) => ({
                                 ...prev,
-                                dateNTime: e.target.value,
+                                img: e.target.value,
                               }))
                             }
-                            style={{
-                              backgroundColor: "#1b6794",
-                              color: "#fff",
-                            }}
-                          />
+                          /> */}
                         </div>
-                        <button
-                          className="btn btn-transparent"
-                          onClick={() => {
-                            dispatch(
-                              editToDoItem({
-                                listId: id,
-                                toDoId: item.id,
-                                des: editInfo.des as string,
-                                img: editInfo.img as string,
-                                dateNTime: editInfo.dateNTime as string,
-                              })
-                            );
-                            setEditInfo((prev) => ({ ...prev, id: 0 }));
-                          }}
-                          disabled={editInfo.des === ""}
-                        >
-                          Save
-                        </button>
-                        <button
-                          className="btn btn-transparent text-white"
-                          onClick={() => {
-                            setEditInfo({
-                              id: 0,
-                              des: "",
-                              img: "",
-                              dateNTime: "",
-                            });
-                            setOptions(0);
-                          }}
-                        >
-                          X
-                        </button>
+                        {item.img && (
+                          <img
+                            alt={`img${i}`}
+                            src={item.img}
+                            className="w-100 border rounded"
+                          />
+                        )}
+                        <div className="d-flex justify-content-end">
+                          <button
+                            className="btn btn-transparent"
+                            onClick={() => {
+                              dispatch(
+                                editToDoItem({
+                                  listId: id,
+                                  toDoId: item.id,
+                                  des: editInfo.des as string,
+                                  img: editInfo.img as string,
+                                  dateNTime: editInfo.dateNTime as string,
+                                })
+                              );
+                              setEditInfo((prev) => ({ ...prev, id: 0 }));
+                            }}
+                            disabled={editInfo.des === ""}
+                          >
+                            Save
+                          </button>
+                          <button
+                            className="btn btn-transparent text-white"
+                            onClick={() => {
+                              setEditInfo({
+                                id: 0,
+                                des: "",
+                                img: "",
+                                dateNTime: "",
+                              });
+                              setOptions(0);
+                            }}
+                          >
+                            X
+                          </button>
+                        </div>
                       </div>
                     ) : (
-                      <div>
-                        <div>{item.des}</div>
-                        <div className="fs-16">
-                          {dateNTimeFormatter(item.dateNTime || "")?.date}{" "}
-                          {dateNTimeFormatter(item.dateNTime || "")?.time}
+                      <div className="w-100">
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div>{item.des}</div>
+                          <button
+                            className="btn btn-transparent z-1"
+                            onClick={() =>
+                              setOptions((prev) => (prev === 0 ? item.id : 0))
+                            }
+                          >
+                            <FaEdit />
+                          </button>
                         </div>
-                        <div>{item.img}</div>
+                        {item.dateNTime && (
+                          <div className="fs-16">
+                            <span className="fs-16 w-25">Date: </span>
+                            {
+                              dateNTimeFormatter(item.dateNTime || "")?.date
+                            }{" "}
+                            {dateNTimeFormatter(item.dateNTime || "")?.time}
+                          </div>
+                        )}
+                        {item.img && (
+                          <img
+                            alt={`img${i}`}
+                            src={item.img}
+                            className="w-100 border rounded"
+                          />
+                        )}
                       </div>
                     )}
-                    {editInfo.id !== item.id && (
-                      <button
-                        className="btn btn-transparent z-1"
-                        onClick={() =>
-                          setOptions((prev) => (prev === 0 ? item.id : 0))
-                        }
-                      >
-                        <FaEdit />
-                      </button>
-                    )}
                     {options === item?.id && (
-                      <div className="position-absolute end-0 top-100 z-5">
+                      <div
+                        className="position-absolute z-5"
+                        style={{ right: 0, top: 30 }}
+                      >
                         <div className="card bg-gray border-color-white">
                           <button
                             className="btn btn-transparent d-flex justify-content-start"

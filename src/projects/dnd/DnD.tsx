@@ -27,6 +27,7 @@ const DnD = () => {
 
   const onDragEnd = (result: { source: any; destination: any }) => {
     const { source, destination } = result;
+    console.log(result);
     dispatch(modifyListsOnDragAndDrop({ source, destination }));
   };
   const grid = 8;
@@ -35,6 +36,7 @@ const DnD = () => {
     padding: grid,
     width: 250,
   });
+  console.log(todoLists);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
