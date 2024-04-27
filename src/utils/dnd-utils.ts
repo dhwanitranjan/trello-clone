@@ -16,3 +16,15 @@ export const dateNTimeFormatter = (dateNTime: string) => {
     time: `${Number(hours) % 12}:${minutes}${ampm}`,
   };
 };
+
+export const keyWordToHighlight = (keyword: string) => {
+  const divs = document.querySelectorAll('[id^="content"]');
+  divs.forEach((div) => {
+    const text = div.textContent as string;
+    const highlightedText = text?.replace(
+      new RegExp(keyword, "gi"),
+      (match) => `<span class="highlight">${match}</span>`
+    );
+    div.innerHTML = highlightedText;
+  });
+};

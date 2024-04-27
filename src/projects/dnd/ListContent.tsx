@@ -16,7 +16,7 @@ const ListContent = ({ list }: TLisTToDoItemsProp) => {
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center p-2">
-        <span>{list.title}</span>
+        <div id="content">{list.title}</div>
         <br />
         <button
           className="btn btn-transparent text-danger"

@@ -8,6 +8,7 @@ import {
   modifyListsOnDragAndDrop,
   showSampleDnD,
 } from "../../redux/dnd/dnd-slice";
+import { keyWordToHighlight } from "../../utils/dnd-utils";
 
 const DnD = () => {
   const todoLists = useSelector((state: RootState) => state.dnd.toDoLists);
@@ -16,6 +17,7 @@ const DnD = () => {
   );
   const dispatch = useDispatch();
   const [create, setCreate] = useState(false);
+  const [search, setSearch] = useState("");
   const [fieldValues, setFieldValues] = useState({
     title: "",
     dateNTime: null,
@@ -24,6 +26,10 @@ const DnD = () => {
   useEffect(() => {
     dispatch(showSampleDnD(showSampleData));
   }, [showSampleData]);
+
+  useEffect(() => {
+    keyWordToHighlight(search);
+  }, [search]);
 
   const onDragEnd = (result: { source: any; destination: any }) => {
     const { source, destination } = result;
@@ -36,14 +42,42 @@ const DnD = () => {
     padding: grid,
     width: 250,
   });
-  console.log(todoLists);
+
+  const filteredArray = (nestedArray: TToDoLists, keyword: string) => {
+    return nestedArray.filter((subArray) => {
+      return (
+        subArray.title
+          .toLocaleLowerCase()
+          .includes(keyword.toLocaleLowerCase()) ||
+        subArray.toDoItems?.some((item) => {
+          return item.des
+            ?.toLocaleLowerCase()
+            .includes(keyword.toLocaleLowerCase());
+        })
+      );
+    });
+  };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+      <form className="d-flex m-2 w-50">
+        <input
+          className="form-control me-2"
+          type="search"
+          placeholder="Search Keyword"
+          aria-label="Search"
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+        />
+        <button className="btn btn-outline-primary" type="submit">
+          Search
+        </button>
+      </form>
       <div className="h-100">
         <div style={{ backgroundColor: "#005485" }}>
           <div className="row">
-            {todoLists?.map((list, i) => {
+            {filteredArray(todoLists, search)?.map((list, i) => {
               return (
                 <div className="col-4" key={i}>
                   <Droppable droppableId={`${list.id}`}>

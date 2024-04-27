@@ -186,7 +186,7 @@ const CardContent = ({ id, toDoItems }: TCardContentProp) => {
                     ) : (
                       <div className="w-100">
                         <div className="d-flex justify-content-between align-items-center">
-                          <div>{item.des}</div>
+                          <div id="content">{item.des}</div>
                           <button
                             className="btn btn-transparent z-1"
                             onClick={() =>
