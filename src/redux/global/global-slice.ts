@@ -18,10 +18,7 @@ export const globalSlice = createSlice({
       state.sampleData = !state.sampleData;
     },
     handleLogInDetails: (state, { payload }) => {
-      state.loginUserDetails =
-        typeof payload === "string" && payload !== ""
-          ? JSON.parse(localStorage.getItem("loginUserDetails") || "")
-          : payload;
+      state.loginUserDetails = payload;
     },
   },
 });

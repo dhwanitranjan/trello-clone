@@ -36,12 +36,10 @@ const Login = () => {
                       const decoded = jwtDecode(
                         credentialResponse.credential as string
                       );
-                      localStorage.setItem(
-                        "loginUserDetails",
-                        JSON.stringify(decoded)
-                      );
                       dispatch(handleLogInDetails(decoded));
                     }}
+                    shape="pill"
+                    size="medium"
                     auto_select
                     onError={() => {
                       console.log("Login Failed");
